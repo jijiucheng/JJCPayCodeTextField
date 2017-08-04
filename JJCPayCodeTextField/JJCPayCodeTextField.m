@@ -110,7 +110,7 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
         _textField.delegate = self;
         _textField.textColor = [UIColor clearColor];
         _textField.tintColor = [UIColor clearColor];
-        _textField.keyboardType = UIKeyboardTypeNumberPad;
+        _textField.keyboardType = UIKeyboardTypeASCIICapableNumberPad;
         [self addSubview:_textField];
     }
     return _textField;
@@ -262,6 +262,32 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
     }
     
     [_collectionView reloadData];
+    
+    
+    if (self.payCodeString.length == self.textFieldNum) {
+        if (self.finishedBlock) {
+            self.finishedBlock(self.payCodeString);
+        }
+    }
+}
+
+
+/********************  限制字符样式  *******************/
+/**
+ pattern中,输入需要验证的通过的字符
+ 小写a-z
+ 大写A-Z
+ 汉字\u4E00-\u9FA5
+ 数字\u0030-\u0039
+ @param string 要过滤的字符
+ @return YES 只允许输入字母和数字
+ */
+- (BOOL)isInputRuleAndNumber:(NSString *)string {
+    
+    NSString *pattern = @"[a-zA-Z0-9]";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
+    BOOL isMatch = [pred evaluateWithObject:string];
+    return isMatch;
 }
 
 

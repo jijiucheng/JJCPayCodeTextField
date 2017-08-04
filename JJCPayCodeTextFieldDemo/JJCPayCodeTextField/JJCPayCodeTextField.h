@@ -33,6 +33,11 @@ typedef NS_ENUM(NSInteger, JJCPayCodeTextFieldType) {
     JJCPayCodeTextFieldTypeSpaceBorder          // 带间距的方框样式
 };
 
+
+/** 输入完成后回调 **/
+typedef void(^JJCPayCodeTextFieldFinishedBlock)(NSString *payCodeString);
+
+
 @interface JJCPayCodeTextField : UIView
 
 @property (nonatomic, assign) BOOL isChangeTextFieldNum;    // 是否动态变更输入长度（需设置在 textFieldNum 前有效，默认NO）
@@ -43,6 +48,8 @@ typedef NS_ENUM(NSInteger, JJCPayCodeTextFieldType) {
 
 @property (nonatomic, copy)   NSString *payCodeString;      // 真实支付码
 @property (nonatomic, assign) BOOL      isShowTrueCode;     // 是否显示 明文（默认NO）
+
+@property (nonatomic, copy) JJCPayCodeTextFieldFinishedBlock finishedBlock;
 
 
 - (instancetype)initWithFrame:(CGRect)frame TextFieldType:(JJCPayCodeTextFieldType)textFieldType;
