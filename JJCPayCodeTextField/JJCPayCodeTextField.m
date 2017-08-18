@@ -110,7 +110,7 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
         _textField.delegate = self;
         _textField.textColor = [UIColor clearColor];
         _textField.tintColor = [UIColor clearColor];
-        _textField.keyboardType = UIKeyboardTypeASCIICapableNumberPad;
+        _textField.keyboardType = UIKeyboardTypeASCIICapable;
         [self addSubview:_textField];
     }
     return _textField;
