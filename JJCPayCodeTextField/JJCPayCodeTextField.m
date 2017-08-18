@@ -230,8 +230,12 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
         return YES;
         
     } else {
+        if (![self isInputRuleAndNumber:string]) {
+            return NO;
+        }
+        
         if (textField.text.length >= self.textFieldNum) {
-
+            
             [self updateData];
             return NO;
             
