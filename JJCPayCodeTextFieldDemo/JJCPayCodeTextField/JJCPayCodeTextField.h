@@ -49,10 +49,14 @@ typedef void(^JJCPayCodeTextFieldFinishedBlock)(NSString *payCodeString);
 @property (nonatomic, copy)   NSString *payCodeString;      // 真实支付码
 @property (nonatomic, assign) BOOL      isShowTrueCode;     // 是否显示 明文（默认NO）
 
+
 @property (nonatomic, copy) JJCPayCodeTextFieldFinishedBlock finishedBlock;
 
 
 - (instancetype)initWithFrame:(CGRect)frame TextFieldType:(JJCPayCodeTextFieldType)textFieldType;
+/** 清除已输入的支付密码 **/
+- (void)clearKeyCode;
+
 
 
 @end

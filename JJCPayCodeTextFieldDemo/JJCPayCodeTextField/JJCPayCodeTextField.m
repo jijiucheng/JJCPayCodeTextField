@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 
+@property (nonatomic, strong) NSMutableArray *originArrayM;         // 最初始的空数组
 @property (nonatomic, strong) NSMutableArray *dataArrayM;           // 要显示的数组（中间变量）
 @property (nonatomic, strong) NSMutableArray *ciphertextArrayM;     // 密文 数组
 @property (nonatomic, strong) NSMutableArray *plaintextArrayM;      // 明文 数组
@@ -97,6 +98,8 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
             [_ciphertextArrayM addObject:string];
             [_plaintextArrayM addObject:string];
         }
+        
+        _originArrayM = [NSMutableArray arrayWithArray:[_dataArrayM copy]];
     }
     return _dataArrayM;
 }
@@ -133,11 +136,13 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
             for (int i=0; i < (textFieldNum-self.dataArrayM.count); i++) {
                 [self.plaintextArrayM addObject:@""];
                 [self.ciphertextArrayM addObject:@""];
+                [self.originArrayM addObject:@""];
             }
         } else {    // 减小长度
             textFieldNum = textFieldNum < 0 ? 0:textFieldNum;   // 此判断用来防止无输入长度小于0的情况
             [self.plaintextArrayM replaceObjectsInRange:NSMakeRange(textFieldNum, self.dataArrayM.count-textFieldNum) withObjectsFromArray:@[]];
             [self.ciphertextArrayM replaceObjectsInRange:NSMakeRange(textFieldNum, self.dataArrayM.count-textFieldNum) withObjectsFromArray:@[]];
+            [self.originArrayM replaceObjectsInRange:NSMakeRange(textFieldNum, self.dataArrayM.count-textFieldNum) withObjectsFromArray:@[]];
         }
     }
     
@@ -212,7 +217,31 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
 
 
 #pragma mark -----
+#pragma mark ---------------  Method  ---------------
+
+/** 清除已输入的支付密码 **/
+- (void)clearKeyCode {
+    
+    self.dataArrayM       = [NSMutableArray arrayWithArray:[self.originArrayM copy]];
+    self.plaintextArrayM  = [NSMutableArray arrayWithArray:[self.originArrayM copy]];
+    self.ciphertextArrayM = [NSMutableArray arrayWithArray:[self.originArrayM copy]];
+    
+    
+    self.textField.text = @"";
+    self.payCodeString = @"";
+    [self.collectionView reloadData];
+}
+
+
+#pragma mark -----
 #pragma mark ---------------  UITextFieldDelegate  ---------------
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+    if (textField.text.length == self.textFieldNum-1) {
+        self.textField.text = @"";
+    }
+}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
@@ -235,7 +264,7 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
         }
         
         if (textField.text.length >= self.textFieldNum) {
-            
+
             [self updateData];
             return NO;
             
@@ -249,6 +278,11 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
             return YES;
         }
     }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
+    [textField resignFirstResponder];
 }
 
 
@@ -269,6 +303,9 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
     
     
     if (self.payCodeString.length == self.textFieldNum) {
+        
+        [self textFieldDidEndEditing:self.textField];
+        
         if (self.finishedBlock) {
             self.finishedBlock(self.payCodeString);
         }
