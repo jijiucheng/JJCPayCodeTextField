@@ -22,5 +22,5 @@ pod 'JJCPayCodeTextField'
 <p>
   
 ## 演示GIF
-![sss](JJCPayCodeTextField_GIF.gif)
+![演示GIF](JJCPayCodeTextField_GIF.gif)
 
