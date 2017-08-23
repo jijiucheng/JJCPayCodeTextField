@@ -1,5 +1,14 @@
 # JJCPayCodeTextField
 <p>
+  
+  
+ [Note](#jump)
+ <span id = "jump">Note</span>
+ [Use](#jump)
+ <span id = "jump">Use</span>
+ [The function](#jump)
+ <span id = "jump">The function</span>
+  
 
 ## Note
 iOS 支付密码框
