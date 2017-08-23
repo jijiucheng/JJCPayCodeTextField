@@ -1,6 +1,3 @@
-[toc]
-
-
 # JJCPayCodeTextField
 <p>
 
