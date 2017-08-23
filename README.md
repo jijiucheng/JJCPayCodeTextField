@@ -3,6 +3,7 @@
   
   
  [Note](#jump)
+ <span id = "jump">iOS 支付密码框</span>
  [Use](#jump)
  [The function](#jump)
   
