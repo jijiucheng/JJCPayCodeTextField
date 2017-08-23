@@ -2,10 +2,10 @@
 <p>
   
   
- [Note](#jump)
- <span id = "jump">Note</span>
- [Use](#jump)
- <span id = "jump">Use</span>
+ [Note](#jump_Note)
+ <span id = "jump_Note">Note</span>
+ [Use](#jump_Use)
+ <span id = "jump_Use">Use</span>
  [The function](#jump)
  <span id = "jump">The function</span>
   
