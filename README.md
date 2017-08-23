@@ -19,3 +19,9 @@ pod 'JJCPayCodeTextField'
 - 4、在为方框样式时，支持设置方框间间距；
 - 5、支持明文、密文状态切换；
 - 6、支持手动清除已输入的支付码；
+
+<p>
+  
+## 演示GIF
+![演示GIF](JJCPayCodeTextField/JJCPayCodeTextField_GIF.gif)
+
