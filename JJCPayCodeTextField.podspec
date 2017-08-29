@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
     s.name          = 'JJCPayCodeTextField'
-    s.version       = '0.1.0'
+    s.version       = '0.1.1'
     s.license       = 'MIT'
     s.summary       = 'A Library for iOS to use border of pay code.'
     s.homepage      = 'https://github.com/jijiucheng/JJCPayCodeTextField'
