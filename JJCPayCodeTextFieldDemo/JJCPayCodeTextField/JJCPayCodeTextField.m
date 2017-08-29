@@ -249,22 +249,30 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
     NSLog(@"text -- %@, string -- %@, location -- %zd, length -- %zd", textField.text, string, range.location, range.length);
     
     
-    if (range.length != 0) {    // 删除
+    if (range.length != 0) {
         
-        [_plaintextArrayM replaceObjectAtIndex:range.location withObject:string];
-        string = @"";
-        [_ciphertextArrayM replaceObjectAtIndex:range.location withObject:string];
-
-        [self updateData];
-        return YES;
-        
-    } else {
+        // 此处处理联想输入的时候，引起的可以一次性输入多个字符问题
+        if (string.length > 0) {    // 联想输入处理
+            return NO;
+        } else {    // 删除
+            [_plaintextArrayM replaceObjectAtIndex:range.location withObject:string];
+            string = @"";
+            [_ciphertextArrayM replaceObjectAtIndex:range.location withObject:string];
+            
+            [self updateData];
+            return YES;
+        }
+    } else {    // 添加
         if (![self isInputRuleAndNumber:string]) {
             return NO;
         }
         
+        if (string.length > 1) {
+            return NO;
+        }
+        
         if (textField.text.length >= self.textFieldNum) {
-
+            
             [self updateData];
             return NO;
             
