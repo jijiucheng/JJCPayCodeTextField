@@ -23,6 +23,7 @@ pod 'JJCPayCodeTextField'
 - 8、支持变更密文字符样式（暂时只支持字符，不支持图片）。
 <p>
   
+
 ## 演示GIF
 ![演示GIF](JJCPayCodeTextField_GIF.gif)
 
