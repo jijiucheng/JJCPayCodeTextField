@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSMutableArray *plaintextArrayM;      // 明文 数组
 
 @property (nonatomic, strong) JJCTextField *textField;      // 禁止复制粘贴功能
+@property (nonatomic, copy)   NSString *currentInputString; // 当前输入的字符
 
 @end
 
@@ -90,6 +91,8 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
         _dataArrayM       = [NSMutableArray array];
         _ciphertextArrayM = [NSMutableArray array];
         _plaintextArrayM  = [NSMutableArray array];
+        
+        self.currentInputString = @"";
         
         NSString *string = @"";
         
@@ -175,6 +178,7 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
 }
 
 
+
 #pragma mark -----
 #pragma mark ---------------  UICollectionViewDataSource、UICollectionViewDelegateFlowLayout  ---------------
 
@@ -227,6 +231,7 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
     self.ciphertextArrayM = [NSMutableArray arrayWithArray:[self.originArrayM copy]];
     
     
+    self.currentInputString = @"";
     self.textField.text = @"";
     self.payCodeString = @"";
     [self.collectionView reloadData];
@@ -237,6 +242,10 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
 #pragma mark ---------------  UITextFieldDelegate  ---------------
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+    if (self.payCodeString.length != 0) {
+        self.textField.text = self.payCodeString;
+    }
     
     if (textField.text.length == self.textFieldNum-1) {
         self.textField.text = @"";
@@ -255,6 +264,9 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
         if (string.length > 0) {    // 联想输入处理
             return NO;
         } else {    // 删除
+            
+            self.currentInputString = @"";
+            
             [_plaintextArrayM replaceObjectAtIndex:range.location withObject:string];
             string = @"";
             [_ciphertextArrayM replaceObjectAtIndex:range.location withObject:string];
@@ -263,6 +275,7 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
             return YES;
         }
     } else {    // 添加
+        
         if (![self isInputRuleAndNumber:string]) {
             return NO;
         }
@@ -273,13 +286,21 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
         
         if (textField.text.length >= self.textFieldNum) {
             
+            self.currentInputString = @"";
+            
             [self updateData];
             return NO;
             
         } else {
             
+            self.currentInputString = string;
+            
             [_plaintextArrayM replaceObjectAtIndex:range.location withObject:string];
-            string = @"●";
+            if (self.ciphertext && self.ciphertext.length == 1) {
+                string = self.ciphertext;
+            } else {
+                string = @"●";
+            }
             [_ciphertextArrayM replaceObjectAtIndex:range.location withObject:string];
             
             [self updateData];
@@ -308,6 +329,11 @@ static NSString *const reuseId = @"JJCPayCodeTextFieldCell";
     }
     
     [_collectionView reloadData];
+    
+    
+    if (self.currentBlock) {
+        self.currentBlock(self.payCodeString, self.currentInputString);
+    }
     
     
     if (self.payCodeString.length == self.textFieldNum) {

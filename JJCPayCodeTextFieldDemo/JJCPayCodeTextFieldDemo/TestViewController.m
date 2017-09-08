@@ -47,8 +47,17 @@
         _textField.borderSpace = 5;
     }
     
+    _textField.ciphertext = @"●";
     [self.view addSubview:_textField];
     
+    
+    __weak typeof(self) weakSelf = self;
+    _textField.currentBlock = ^(NSString *currentPayCodeString, NSString *currentInputString) {
+        NSLog(@"%@ --- %@ --- %@", currentPayCodeString, currentInputString, weakSelf.textField.payCodeString);
+    };
+    _textField.finishedBlock = ^(NSString *payCodeString) {
+        NSLog(@"%@", payCodeString);
+    };
     
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
