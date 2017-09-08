@@ -10,6 +10,19 @@
 
 
 
+
+/*
+ 
+ JJCPayCodeTextField
+ 2017.09.08
+ 
+ 当前版本：v0.2.0
+ 
+ */
+
+
+
+
 /*
  
  如果遇到无法显示 JJCPayCodeTextField，请检查 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath; 是否执行；
